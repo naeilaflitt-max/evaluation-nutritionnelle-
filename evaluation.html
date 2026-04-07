@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation alimentaire 24h</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header .logo img { 
+    height: 200px; 
+    border-radius: 50%; /* logo arrondi */
+    box-shadow: 0 0 12px rgba(130, 210, 147, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    nav ul li a:hover { color: #1abc9c; }
+    main {
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1.titre-principal {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    h3 { margin-top: 40px; color: #34495e; }
+    .table-repas {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .table-repas th, .table-repas td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    .table-repas th {
+      background: #1abc9c;
+      color: white;
+    }
+    .table-repas input {
+      width: 90%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-add { background: #27ae60; color: white; }
+    .btn-add:hover { background: #2ecc71; }
+    .btn-remove { background: #c0392b; color: white; }
+    .btn-remove:hover { background: #e74c3c; }
+    .btn-calc { background: #2980b9; color: white; display: block; margin: 20px auto; }
+    .btn-calc:hover { background: #3498db; }
+    .total-repas, #total-journee {
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body id="evaluation-page">
+
+<header>
+  <div class="logo">
+    <img src="images/logo.png" alt="Logo du site">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+      <li><a href="evaluation.html">Évaluation alimentaire</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1 class="titre-principal">Évaluation de la consommation alimentaire sur 24h</h1>
+
+  <!-- Petit-déjeuner -->
+  <h3>🥣 Petit-déjeuner</h3>
+  <table class="table-repas" id="table-petitdej">
+    <thead>
+      <tr>
+        <th>Aliment</th>
+        <th>Quantité (g)</th>
+        <th>Glucides (g/100g)</th>
+        <th>Lipides (g/100g)</th>
+        <th>Protéines (g/100g)</th>
+        <th>Cholestérol (mg/100g)</th>
+        <th>Fibres (g/100g)</th>
+        <th>Énergie (kcal)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" placeholder="Ex: Yaourt nature"></td>
+        <td><input type="number" class="qte"></td>
+        <td><input type="number" class="glucides"></td>
+        <td><input type="number" class="lipides"></td>
+        <td><input type="number" class="proteines"></td>
+        <td><input type="number" class="cholesterol"></td>
+        <td><input type="number" class="fibres"></td>
+        <td class="energie">0</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn-add" onclick="ajouterLigne('table-petitdej')">+ Ajouter une ligne</button>
+  <button class="btn-remove" onclick="supprimerLigne('table-petitdej')">- Supprimer la dernière ligne</button>
+
+  <!-- Déjeuner -->
+  <h3>🍛 Déjeuner</h3>
+  <table class="table-repas" id="table-dejeuner">
+    <thead>
+      <tr>
+        <th>Aliment</th>
+        <th>Quantité (g)</th>
+        <th>Glucides (g/100g)</th>
+        <th>Lipides (g/100g)</th>
+        <th>Protéines (g/100g)</th>
+        <th>Cholestérol (mg/100g)</th>
+        <th>Fibres (g/100g)</th>
+        <th>Énergie (kcal)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" placeholder="Ex: Tajine de poulet"></td>
+        <td><input type="number" class="qte"></td>
+        <td><input type="number" class="glucides"></td>
+        <td><input type="number" class="lipides"></td>
+        <td><input type="number" class="proteines"></td>
+        <td><input type="number" class="cholesterol"></td>
+        <td><input type="number" class="fibres"></td>
+        <td class="energie">0</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn-add" onclick="ajouterLigne('table-dejeuner')">+ Ajouter une ligne</button>
+  <button class="btn-remove" onclick="supprimerLigne('table-dejeuner')">- Supprimer la dernière ligne</button>
+
+  <!-- Dîner -->
+  <h3>🍽️ Dîner</h3>
+  <table class="table-repas" id="table-diner">
+    <thead>
+      <tr>
+        <th>Aliment</th>
+        <th>Quantité (g)</th>
+        <th>Glucides (g/100g)</th>
+        <th>Lipides (g/100g)</th>
+        <th>Protéines (g/100g)</th>
+        <th>Cholestérol (mg/100g)</th>
+        <th>Fibres (g/100g)</th>
+        <th>Énergie (kcal)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" placeholder="Ex: Soupe de légumes"></td>
+        <td><input type="number" class="qte"></td>
+        <td><input type="number" class="glucides"></td>
+        <td><input type="number" class="lipides"></td>
+        <td><input type="number" class="proteines"></td>
+        <td><input type="number" class="cholesterol"></td>
+        <td><input type="number" class="fibres"></td>
+        <td class="energie">0</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn-add" onclick="ajouterLigne('table-diner')">+ Ajouter une ligne</button>
+  <button class="btn-remove" onclick="supprimerLigne('table-diner')">- Supprimer la dernière ligne</button>
+
+  <!-- Bouton global -->
+  <button class="btn-calc" onclick="calculerApports()">Calculer les apports</button>
+  <p id="total-journee"></p>
+  <section id="guide-portions">
+  <h2>📷 Guide des portions alimentaires et contenants</h2>
+  <p>Choisissez le repère (A, B, C) qui correspond le mieux à votre portion ou contenant habituel.</p>
+
+  <div class="cards-container">
+    <!-- Aliments -->
+    <div class="card"><h3>🥗 Crudités</h3><p>A = 50 g<br>B = 100 g<br>C = 150 g</p></div>
+    <div class="card"><h3>🥩 Viande</h3><p>A = 80 g<br>B = 130 g<br>C = 200 g</p></div>
+    <div class="card"><h3>🍗 Volaille</h3><p>A = 60 g<br>B = 150 g<br>C = 220 g</p></div>
+    <div class="card"><h3>🐟 Poisson</h3><p>A = 50 g<br>B = 100 g<br>C = 150 g</p></div>
+    <div class="card"><h3>🍟 Frites / Pommes</h3><p>A = 100 g<br>B = 200 g<br>C = 300 g</p></div>
+    <div class="card"><h3>🍝 Pâtes</h3><p>A = 70 g<br>B = 170 g<br>C = 270 g</p></div>
+    <div class="card"><h3>🥖 Pain</h3><p>A = 30 g<br>B = 60 g<br>C = 120 g</p></div>
+    <div class="card"><h3>🍎 Fruit (pomme)</h3><p>A = 150 g<br>B = 200 g<br>C = 220 g</p></div>
+    <div class="card"><h3>🧀 Fromage</h3><p>A = 30 g<br>B = 60 g<br>C = 80 g</p></div>
+    <div class="card"><h3>🥜 Oléagineux</h3><p>A = 20 g<br>B = 40 g<br>C = 60–90 g</p></div>
+    <div class="card"><h3>🧈 Beurre</h3><p>A = 5 g<br>B = 10 g<br>C = 20–30 g</p></div>
+    <div class="card"><h3>🫒 Huile</h3><p>A = 1 c.s ≈ 10 g<br>B = 2 c.s ≈ 20 g<br>C = 3 c.s ≈ 30 g</p></div>
+    <div class="card"><h3>🍫 Chocolat</h3><p>A = 25 g<br>B = 50 g<br>C = 100 g</p></div>
+
+    <!-- Contenants -->
+    <div class="card"><h3>🥤 Verres (eau/jus)</h3><p>A = 110 ml<br>B = 150 ml<br>C = 200 ml<br>D = 280 ml</p></div>
+    <div class="card"><h3>🍵 Tasses (boissons chaudes)</h3><p>I = 70 ml<br>J = 150 ml<br>K = 250 ml<br>L = 400 ml</p></div>
+    <div class="card"><h3>🍲 Bol de soupe</h3><p>A = 150 g<br>B = 250 g<br>C = 400 g</p></div>
+    <div class="card"><h3>🥗 Assiette de salade</h3><p>A = 25 g<br>B = 50 g<br>C = 70 g</p></div>
+  </div>
+
+  <p class="link-ciqual">
+    🔗 Pour plus de détails, consultez le 
+    <a href="https://ciqual.anses.fr/" target="_blank">Ciqual – Table officielle ANSES</a>
+  </p>
+</section>
+
+<style>
+#guide-portions {
+  background: #fdfdfd;
+  border: 2px solid #1abc9c;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+#guide-portions h2 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 15px;
+}
+#guide-portions p {
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+.card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  width: 160px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: scale(1.05);
+  background: #eafaf1;
+}
+.card h3 {
+  margin-bottom: 10px;
+  color: #1abc9c;
+}
+.link-ciqual {
+  text-align: center;
+  margin-top: 20px;
+}
+.link-ciqual a {
+  color: #2980b9;
+  font-weight: bold;
+  text-decoration: none;
+}
+.link-ciqual a:hover {
+  text-decoration: underline;
+}
+/* Adaptation mobile */
+@media (max-width: 600px) {
+  .card {
+    width: 100%;
+  }
+}
+</style>
+<section id="graphique-apports">
+  <h2>📊 Répartition des macronutriments</h2>
+  <canvas id="macrosChart"></canvas>
+</section>
+
+
+
+
+</script>
+  <div style="background:#eef; padding:15px; margin-top:20px; border:1px solid #ccc;">
+  <strong>💡 Astuce :</strong> Pour trouver les valeurs exactes de glucides, lipides, protéines, fibres et énergie,
+  utilisez la base officielle :
+  <a href="https://ciqual.anses.fr/" target="_blank">Ciqual – ANSES</a>
+</div>
+
+</main>
+
+<script>
+function ajouterLigne(tableId) {
+  const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+  const newRow = table.rows[0].cloneNode(true);
+
+  // Réinitialiser les champs
+  newRow.querySelectorAll('input').forEach(input => input.value = "");
+  newRow.querySelector('.energie').textContent = "0";
+
+  table.appendChild(newRow);
+}
+
+function supprimerLigne(tableId) {
+  const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+  if (table.rows.length > 1) {
+    table.deleteRow(table.rows.length - 1);
+  }
+}
+
+function calculerApports() {
+  let totalJournee = 0;
+
+  document.querySelectorAll('.table-repas').forEach(table => {
+    const rows = table.querySelectorAll('tbody tr');
+    let totalEnergieRepas = 0;
+
+    rows.forEach(row => {
+      const qte = parseFloat(row.querySelector('.qte').value) || 0;
+      const glucides = parseFloat(row.querySelector('.glucides').value) || 0;
+      const lipides = parseFloat(row.querySelector('.lipides').value) || 0;
+      const proteines = parseFloat(row.querySelector('.proteines').value) || 0;
+
+      // Formule énergie : 4 kcal/g glucides + 9 kcal/g lipides + 4 kcal/g protéines
+      const energie = (glucides * 4 + lipides * 9 + proteines * 4) * (qte / 100);
+      row.querySelector('.energie').textContent = energie.toFixed(1);
+
+      totalEnergieRepas += energie;
+    });
+
+    // Afficher le total sous chaque tableau
+    let totalParagraphe = table.nextElementSibling;
+    if (!totalParagraphe || !totalParagraphe.classList.contains('total-repas')) {
+      totalParagraphe = document.createElement('p');
+      totalParagraphe.classList.add('total-repas');
+      table.parentNode.insertBefore(totalParagraphe, table.nextSibling);
+    }
+    totalParagraphe.innerHTML = `<strong>Total énergie du repas :</strong> ${totalEnergieRepas.toFixed(1)} kcal`;
+
+    totalJournee += totalEnergieRepas;
+  });
+
+  // Afficher le grand total de la journée
+  document.getElementById('total-journee').innerHTML =
+    `<strong>Total énergie de la journée :</strong> ${totalJournee.toFixed(1)} kcal`;
+}
+</script>
+</body>
+</html>

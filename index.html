@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation Nutritionnelle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Logo + Menu -->
+  <header>
+    <div class="logo">
+      <img src="./images/logo.png" alt="Logo du site">
+    </div>
+
+    <!-- Menu de navigation -->
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+        <li><a href="evaluation.html">Évaluation alimentaire</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Titre principal -->
+  <h1 class="titre-principal">Évaluation de l'état nutritionnel</h1>
+
+  <!-- Formulaire principal -->
+  <div class="container">
+    <!-- Taille corporelle -->
+    <label for="tailleCorps">Taille (cm)</label>
+    <input type="number" id="tailleCorps" placeholder="Ex: 165">
+
+    <!-- Poids actuel -->
+    <label for="poids">Poids actuel (kg)</label>
+    <input type="number" id="poids" placeholder="Ex: 60">
+
+    <!-- Poids habituel -->
+    <label for="poidsHabituel">Poids habituel (kg)</label>
+    <input type="number" id="poidsHabituel" placeholder="Ex: 62">
+
+    <!-- Tour de poitrine -->
+    <label for="tourPoitrine">Tour de poitrine (cm) (Bornhardt)</label>
+    <input type="number" id="tourPoitrine" placeholder="Ex: 90">
+
+    <!-- Tour de taille -->
+    <label for="tourTaille">Tour de taille (cm)</label>
+    <input type="number" id="tourTaille" placeholder="Ex: 78">
+
+    <!-- Tour de hanche -->
+    <label for="hanche">Tour de hanche (cm)</label>
+    <input type="number" id="hanche" placeholder="Ex: 107">
+
+    <!-- Sexe -->
+    <label for="sexe">Sexe</label>
+    <select id="sexe">
+      <option value="Femme">Femme</option>
+      <option value="Homme">Homme</option>
+    </select>
+
+    <!-- Âge -->
+    <label for="age">Âge</label>
+    <input type="number" id="age" placeholder="Ex: 22">
+
+    <!-- Activité -->
+    <label for="activite">Niveau d'activité</label>
+    <select id="activite">
+      <option value="1.2">Sédentaire</option>
+      <option value="1.375">Légère</option>
+      <option value="1.55">Modérée</option>
+      <option value="1.725">Intense</option>
+      <option value="1.9">Très intense</option>
+    </select>
+
+    <!-- Bouton -->
+    <button onclick="calculs()">Calculer</button>
+
+    <!-- Résultats -->
+    <div id="resultats"></div>
+  </div>
+
+  <!-- Section contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Nom : Flitti Naila </p>
+    <p>Téléphone :</p>
+    <p>Email : <a href="mailto:naeilaflitt@gmail.com">naeilaflitt@gmail.com</a></p>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
