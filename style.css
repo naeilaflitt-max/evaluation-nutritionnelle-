@@ -172,8 +172,8 @@ button:hover {
 
   header {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: right;
+    text-align: right;
     padding: 8px 10px;
     gap: 6px;
     box-sizing: border-box;
