@@ -164,24 +164,27 @@ button:hover {
 
 
 
-/* Réduire la barre menu sur téléphone */
-@media screen and (max-width: 100px) {
+/* ✅ Responsive design pour téléphone */
+@media (max-width: 600px) {
   header {
-    padding: 6px 10px;
-    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
   }
 
-  header .logo img {
-    width: 70px;
-    height: auto;
+  .logo {
+    max-width: 80px !important;
+    height: auto !important;
+    margin: 0 auto 10px auto;
   }
 
-  nav ul {
-    gap: 5px;
+  header h1 {
+    font-size: 1.6em;
   }
 
-  nav ul li a {
-    font-size: 14px;
-    line-height: 1.2;
+  header p {
+    font-size: 1em;
   }
 }
