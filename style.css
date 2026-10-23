@@ -163,77 +163,25 @@ button:hover {
 
 
 
-/* ===== Responsive design ===== */
-@media screen and (max-width: 600px) {
 
+/* Réduire la barre menu sur téléphone */
+@media screen and (max-width: 600px) {
   header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    gap: 6px;
+    padding: 6px 10px;
+    gap: 5px;
   }
 
-  header img {
-    width: 100px;
-    max-width: 100%;
+  header .logo img {
+    width: 110px;
     height: auto;
-    margin: 0 auto;
   }
 
   nav ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  nav ul li {
-    margin: 0;
-    padding: 0;
+    gap: 5px;
   }
 
   nav ul li a {
     font-size: 14px;
     line-height: 1.2;
-    padding: 3px 0;
-    display: block;
-    text-align: center;
-  }
-
-  .titre-principal {
-    font-size: 1.5em;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-
-  .container {
-    width: 95%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: 1rem;
-  }
-
-  input,
-  select,
-  button,
-  textarea {
-    max-width: 100%;
-    box-sizing: border-box;
-    font-size: 1rem;
-  }
-
-  #contact {
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-
-  body {
-    overflow-x: hidden;
   }
 }
