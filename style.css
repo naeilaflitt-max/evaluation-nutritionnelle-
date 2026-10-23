@@ -182,17 +182,22 @@ button:hover {
     box-sizing: border-box;
   }
 
-  /* Logo à gauche */
-  header .logo {
-    flex-shrink: 0;
-    margin-right: auto;
-  }
+ /* Logo ovale à gauche sur téléphone */
+header .logo {
+  flex-shrink: 0;
+  margin-right: auto;
+  width: 80px;
+  height: 65px;
+  overflow: hidden;
+  border-radius: 50%;
+}
 
-  header .logo img {
-    width: 55px;
-    height: 55px;
-    object-fit: contain;
-  }
+header .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
 
   /* Menu à droite */
   nav ul {
