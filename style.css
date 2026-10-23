@@ -164,26 +164,53 @@ button:hover {
 
 
 
-/* ✅ Responsive design pour téléphone */
+/* Responsive design pour téléphone */
 @media (max-width: 600px) {
+  body {
+    padding-top: 130px;
+  }
+
   header {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 15px;
+    padding: 8px 10px;
+    gap: 6px;
+    box-sizing: border-box;
   }
 
-  .logo {
-    max-width: 80px !important;
-    height: auto !important;
-    margin: 0 auto 10px auto;
+  header .logo img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
   }
 
-  header h1 {
-    font-size: 1.6em;
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
 
+  nav ul li a {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+
+  .titre-principal {
+    margin-top: 20px;
+    font-size: 1.7em;
+  }
+
+  .container {
+    width: 90%;
+    box-sizing: border-box;
+    padding: 1rem;
+  }
+
+  input, select {
+    box-sizing: border-box;
+  }
+}
   header p {
     font-size: 1em;
   }
