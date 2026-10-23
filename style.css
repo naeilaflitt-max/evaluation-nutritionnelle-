@@ -162,82 +162,77 @@ button:hover {
 }
 
 
+
 /* ===== Responsive design ===== */
 @media screen and (max-width: 600px) {
 
-  /* En-tête et menu */
   header {
+    display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 8px 12px;
-    gap: 8px;
+    gap: 6px;
   }
 
-  /* Logo */
   header img {
-    width: 150px;
+    width: 100px;
     max-width: 100%;
     height: auto;
-    display: block;
     margin: 0 auto;
   }
 
-  /* Liste du menu */
   nav ul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    gap: 4px;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  /* Liens du menu */
+  nav ul li {
+    margin: 0;
+    padding: 0;
+  }
+
   nav ul li a {
-    font-size: 16px;
-    line-height: 1.3;
-    padding: 4px 0;
+    font-size: 14px;
+    line-height: 1.2;
+    padding: 3px 0;
     display: block;
     text-align: center;
   }
 
-  /* Titre principal */
   .titre-principal {
     font-size: 1.5em;
-    margin-top: 25px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 15px;
     text-align: center;
   }
 
-  /* Contenu principal */
   .container {
     width: 95%;
     max-width: 100%;
     box-sizing: border-box;
     padding: 1rem;
-    margin-left: auto;
-    margin-right: auto;
   }
 
-  /* Champs du formulaire */
   input,
   select,
   button,
   textarea {
     max-width: 100%;
     box-sizing: border-box;
-    font-size: 1em;
+    font-size: 1rem;
   }
 
-  /* Section contact */
   #contact {
     padding: 1rem;
     box-sizing: border-box;
   }
 
-  /* Évite les débordements horizontaux */
   body {
     overflow-x: hidden;
   }
