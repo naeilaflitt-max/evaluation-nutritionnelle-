@@ -127,7 +127,7 @@
 
     .table-repas {
       width: 100%;
-      min-width: 850px;
+      min-width: 1250px;
       border-collapse: collapse;
       background: white;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -225,6 +225,21 @@
       background: #eafaf1;
       border-radius: 8px;
     }
+
+    /* ===== Bilan micronutriments ===== */
+    #bilan-micronutriments {
+      margin: 30px 0;
+      padding: 22px;
+      background: #fff;
+      border: 1px solid #dce5e8;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    #bilan-micronutriments h2 { text-align: center; }
+    #bilan-micronutriments > p { line-height: 1.6; }
+    #tableau-bilan { min-width: 420px; }
+    #tableau-bilan th:first-child, #tableau-bilan td:first-child { text-align: left; }
+    #bilan-micronutriments .astuce { margin-top: 15px; }
 
     /* ===== Guide des portions ===== */
     #guide-portions {
@@ -450,8 +465,8 @@
       }
 
       .table-repas {
-        width: 850px;
-        min-width: 850px;
+        width: 1250px;
+        min-width: 1250px;
         max-width: none;
         table-layout: auto;
       }
@@ -590,6 +605,13 @@
           <th>Lipides (g/100g)</th>
           <th>Protéines (g/100g)</th>
           <th>Cholestérol (mg/100g)</th>
+          <th>AGS (g/100g)</th>
+          <th>AGMI (g/100g)</th>
+          <th>AGPI (g/100g)</th>
+          <th>Vitamine B (mg/100g)</th>
+          <th>Vitamine C (mg/100g)</th>
+          <th>Vitamine D (µg/100g)</th>
+          <th>Vitamine E (mg/100g)</th>
           <th>Fibres (g/100g)</th>
           <th>Énergie (kcal)</th>
         </tr>
@@ -602,6 +624,13 @@
           <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
           <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
           <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
+          <td><input type="number" class="ags" min="0" step="any" aria-label="Acides gras saturés pour 100 g"></td>
+          <td><input type="number" class="agmi" min="0" step="any" aria-label="Acides gras mono-insaturés pour 100 g"></td>
+          <td><input type="number" class="agpi" min="0" step="any" aria-label="Acides gras polyinsaturés pour 100 g"></td>
+          <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
+          <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
+          <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
+          <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E pour 100 g"></td>
           <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres pour 100 g"></td>
           <td class="energie">0</td>
         </tr>
@@ -625,6 +654,13 @@
           <th>Lipides (g/100g)</th>
           <th>Protéines (g/100g)</th>
           <th>Cholestérol (mg/100g)</th>
+          <th>AGS (g/100g)</th>
+          <th>AGMI (g/100g)</th>
+          <th>AGPI (g/100g)</th>
+          <th>Vitamine B (mg/100g)</th>
+          <th>Vitamine C (mg/100g)</th>
+          <th>Vitamine D (µg/100g)</th>
+          <th>Vitamine E (mg/100g)</th>
           <th>Fibres (g/100g)</th>
           <th>Énergie (kcal)</th>
         </tr>
@@ -637,6 +673,13 @@
           <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
           <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
           <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
+          <td><input type="number" class="ags" min="0" step="any" aria-label="Acides gras saturés pour 100 g"></td>
+          <td><input type="number" class="agmi" min="0" step="any" aria-label="Acides gras mono-insaturés pour 100 g"></td>
+          <td><input type="number" class="agpi" min="0" step="any" aria-label="Acides gras polyinsaturés pour 100 g"></td>
+          <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
+          <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
+          <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
+          <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E pour 100 g"></td>
           <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres pour 100 g"></td>
           <td class="energie">0</td>
         </tr>
@@ -660,6 +703,13 @@
           <th>Lipides (g/100g)</th>
           <th>Protéines (g/100g)</th>
           <th>Cholestérol (mg/100g)</th>
+          <th>AGS (g/100g)</th>
+          <th>AGMI (g/100g)</th>
+          <th>AGPI (g/100g)</th>
+          <th>Vitamine B (mg/100g)</th>
+          <th>Vitamine C (mg/100g)</th>
+          <th>Vitamine D (µg/100g)</th>
+          <th>Vitamine E (mg/100g)</th>
           <th>Fibres (g/100g)</th>
           <th>Énergie (kcal)</th>
         </tr>
@@ -672,6 +722,13 @@
           <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
           <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
           <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
+          <td><input type="number" class="ags" min="0" step="any" aria-label="Acides gras saturés pour 100 g"></td>
+          <td><input type="number" class="agmi" min="0" step="any" aria-label="Acides gras mono-insaturés pour 100 g"></td>
+          <td><input type="number" class="agpi" min="0" step="any" aria-label="Acides gras polyinsaturés pour 100 g"></td>
+          <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
+          <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
+          <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
+          <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E pour 100 g"></td>
           <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres pour 100 g"></td>
           <td class="energie">0</td>
         </tr>
@@ -686,6 +743,28 @@
   <button type="button" class="btn-calc" onclick="calculerApports()">Calculer les apports</button>
 
   <p id="total-journee" aria-live="polite"></p>
+
+  <!-- Bilan journalier des acides gras, du cholestérol et des vitamines -->
+  <section id="bilan-micronutriments" aria-live="polite">
+    <h2>🧪 Bilan journalier : acides gras, cholestérol et vitamines</h2>
+    <p>Les valeurs sont calculées à partir des quantités consommées et des valeurs saisies pour 100 g d’aliment.</p>
+    <div class="table-responsive">
+      <table class="table-repas" id="tableau-bilan">
+        <thead><tr><th>Élément</th><th>Apport journalier</th><th>Unité</th></tr></thead>
+        <tbody id="resultats-micronutriments">
+          <tr><td>AGS</td><td>0</td><td>g</td></tr>
+          <tr><td>AGMI</td><td>0</td><td>g</td></tr>
+          <tr><td>AGPI</td><td>0</td><td>g</td></tr>
+          <tr><td>Cholestérol</td><td>0</td><td>mg</td></tr>
+          <tr><td>Vitamine B (valeur globale saisie)</td><td>0</td><td>mg</td></tr>
+          <tr><td>Vitamine C</td><td>0</td><td>mg</td></tr>
+          <tr><td>Vitamine D</td><td>0</td><td>µg</td></tr>
+          <tr><td>Vitamine E</td><td>0</td><td>mg</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="astuce">Important : saisissez les valeurs nutritionnelles provenant d’une même base de composition alimentaire, pour 100 g de l’aliment correspondant. Une case vide est traitée comme une valeur non renseignée et contribue à zéro au calcul affiché ; le résultat peut donc être sous-estimé.</p>
+  </section>
 
   <!-- Guide des portions -->
   <section id="guide-portions">
@@ -773,52 +852,68 @@
     }
   }
 
-  /* ===== Calcul énergétique ===== */
+  /* ===== Calcul des apports énergétiques et nutritionnels ===== */
   function calculerApports() {
     let totalJournee = 0;
     let totalGlucides = 0;
     let totalLipides = 0;
     let totalProteines = 0;
 
+    const nutriments = {
+      cholesterol: 0, ags: 0, agmi: 0, agpi: 0,
+      vitB: 0, vitC: 0, vitD: 0, vitE: 0
+    };
+
     document.querySelectorAll(".table-repas").forEach(table => {
+      // Le tableau de bilan ne contient pas de lignes alimentaires.
+      if (!table.id.startsWith("table-") || table.id === "tableau-bilan") return;
       let totalEnergieRepas = 0;
 
       table.querySelectorAll("tbody tr").forEach(row => {
-        const qte = Math.max(0, parseFloat(row.querySelector(".qte").value) || 0);
-        const glucides100 = Math.max(0, parseFloat(row.querySelector(".glucides").value) || 0);
-        const lipides100 = Math.max(0, parseFloat(row.querySelector(".lipides").value) || 0);
-        const proteines100 = Math.max(0, parseFloat(row.querySelector(".proteines").value) || 0);
-
-        const glucides = glucides100 * qte / 100;
-        const lipides = lipides100 * qte / 100;
-        const proteines = proteines100 * qte / 100;
-
+        const lire = classe => Math.max(0, parseFloat(row.querySelector("." + classe)?.value) || 0);
+        const qte = lire("qte");
+        const glucides = lire("glucides") * qte / 100;
+        const lipides = lire("lipides") * qte / 100;
+        const proteines = lire("proteines") * qte / 100;
         const energie = glucides * 4 + lipides * 9 + proteines * 4;
 
         row.querySelector(".energie").textContent = energie.toFixed(1);
-
         totalEnergieRepas += energie;
         totalGlucides += glucides;
         totalLipides += lipides;
         totalProteines += proteines;
+
+        Object.keys(nutriments).forEach(nom => {
+          nutriments[nom] += lire(nom) * qte / 100;
+        });
       });
 
       let paragraphe = table.parentElement.nextElementSibling;
-
       if (!paragraphe || !paragraphe.classList.contains("total-repas")) {
         paragraphe = document.createElement("p");
         paragraphe.className = "total-repas";
         table.parentElement.insertAdjacentElement("afterend", paragraphe);
       }
-
-      paragraphe.textContent =
-        "Total énergie du repas : " + totalEnergieRepas.toFixed(1) + " kcal";
-
+      paragraphe.textContent = "Total énergie du repas : " + totalEnergieRepas.toFixed(1) + " kcal";
       totalJournee += totalEnergieRepas;
     });
 
     document.getElementById("total-journee").textContent =
       "Total énergie de la journée : " + totalJournee.toFixed(1) + " kcal";
+
+    const lignes = [
+      ["AGS", nutriments.ags, "g", 2],
+      ["AGMI", nutriments.agmi, "g", 2],
+      ["AGPI", nutriments.agpi, "g", 2],
+      ["Cholestérol", nutriments.cholesterol, "mg", 1],
+      ["Vitamine B (valeur globale saisie)", nutriments.vitB, "mg", 2],
+      ["Vitamine C", nutriments.vitC, "mg", 2],
+      ["Vitamine D", nutriments.vitD, "µg", 2],
+      ["Vitamine E", nutriments.vitE, "mg", 2]
+    ];
+    document.getElementById("resultats-micronutriments").innerHTML = lignes.map(([nom, valeur, unite, decimales]) =>
+      `<tr><td>${nom}</td><td>${valeur.toFixed(decimales)}</td><td>${unite}</td></tr>`
+    ).join("");
 
     actualiserGraphique(totalGlucides, totalLipides, totalProteines);
   }
@@ -872,4 +967,4 @@
 </script>
 
 </body>
-</html>
+</html
