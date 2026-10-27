@@ -605,9 +605,6 @@
           <th>Lipides (g/100g)</th>
           <th>Protéines (g/100g)</th>
           <th>Cholestérol (mg/100g)</th>
-          <th>AGS (g/100g)</th>
-          <th>AGMI (g/100g)</th>
-          <th>AGPI (g/100g)</th>
           <th>Vitamine B (mg/100g)</th>
           <th>Vitamine C (mg/100g)</th>
           <th>Vitamine D (µg/100g)</th>
@@ -624,9 +621,6 @@
           <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
           <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
           <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
-          <td><input type="number" class="ags" min="0" step="any" aria-label="Acides gras saturés pour 100 g"></td>
-          <td><input type="number" class="agmi" min="0" step="any" aria-label="Acides gras mono-insaturés pour 100 g"></td>
-          <td><input type="number" class="agpi" min="0" step="any" aria-label="Acides gras polyinsaturés pour 100 g"></td>
           <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
           <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
           <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
@@ -654,9 +648,6 @@
           <th>Lipides (g/100g)</th>
           <th>Protéines (g/100g)</th>
           <th>Cholestérol (mg/100g)</th>
-          <th>AGS (g/100g)</th>
-          <th>AGMI (g/100g)</th>
-          <th>AGPI (g/100g)</th>
           <th>Vitamine B (mg/100g)</th>
           <th>Vitamine C (mg/100g)</th>
           <th>Vitamine D (µg/100g)</th>
@@ -673,9 +664,6 @@
           <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
           <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
           <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
-          <td><input type="number" class="ags" min="0" step="any" aria-label="Acides gras saturés pour 100 g"></td>
-          <td><input type="number" class="agmi" min="0" step="any" aria-label="Acides gras mono-insaturés pour 100 g"></td>
-          <td><input type="number" class="agpi" min="0" step="any" aria-label="Acides gras polyinsaturés pour 100 g"></td>
           <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
           <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
           <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
@@ -703,9 +691,6 @@
           <th>Lipides (g/100g)</th>
           <th>Protéines (g/100g)</th>
           <th>Cholestérol (mg/100g)</th>
-          <th>AGS (g/100g)</th>
-          <th>AGMI (g/100g)</th>
-          <th>AGPI (g/100g)</th>
           <th>Vitamine B (mg/100g)</th>
           <th>Vitamine C (mg/100g)</th>
           <th>Vitamine D (µg/100g)</th>
@@ -722,9 +707,6 @@
           <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
           <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
           <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
-          <td><input type="number" class="ags" min="0" step="any" aria-label="Acides gras saturés pour 100 g"></td>
-          <td><input type="number" class="agmi" min="0" step="any" aria-label="Acides gras mono-insaturés pour 100 g"></td>
-          <td><input type="number" class="agpi" min="0" step="any" aria-label="Acides gras polyinsaturés pour 100 g"></td>
           <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
           <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
           <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
@@ -744,17 +726,14 @@
 
   <p id="total-journee" aria-live="polite"></p>
 
-  <!-- Bilan journalier des acides gras, du cholestérol et des vitamines -->
+  <!-- Bilan journalier du cholestérol et des vitamines -->
   <section id="bilan-micronutriments" aria-live="polite">
-    <h2>🧪 Bilan journalier : acides gras, cholestérol et vitamines</h2>
+    <h2>🧪 Bilan journalier : cholestérol et vitamines</h2>
     <p>Les valeurs sont calculées à partir des quantités consommées et des valeurs saisies pour 100 g d’aliment.</p>
     <div class="table-responsive">
       <table class="table-repas" id="tableau-bilan">
         <thead><tr><th>Élément</th><th>Apport journalier</th><th>Unité</th></tr></thead>
         <tbody id="resultats-micronutriments">
-          <tr><td>AGS</td><td>0</td><td>g</td></tr>
-          <tr><td>AGMI</td><td>0</td><td>g</td></tr>
-          <tr><td>AGPI</td><td>0</td><td>g</td></tr>
           <tr><td>Cholestérol</td><td>0</td><td>mg</td></tr>
           <tr><td>Vitamine B (valeur globale saisie)</td><td>0</td><td>mg</td></tr>
           <tr><td>Vitamine C</td><td>0</td><td>mg</td></tr>
@@ -860,7 +839,6 @@
     let totalProteines = 0;
 
     const nutriments = {
-      cholesterol: 0, ags: 0, agmi: 0, agpi: 0,
       vitB: 0, vitC: 0, vitD: 0, vitE: 0
     };
 
@@ -902,9 +880,6 @@
       "Total énergie de la journée : " + totalJournee.toFixed(1) + " kcal";
 
     const lignes = [
-      ["AGS", nutriments.ags, "g", 2],
-      ["AGMI", nutriments.agmi, "g", 2],
-      ["AGPI", nutriments.agpi, "g", 2],
       ["Cholestérol", nutriments.cholesterol, "mg", 1],
       ["Vitamine B (valeur globale saisie)", nutriments.vitB, "mg", 2],
       ["Vitamine C", nutriments.vitC, "mg", 2],
@@ -967,4 +942,4 @@
 </script>
 
 </body>
-</html
+</html>
