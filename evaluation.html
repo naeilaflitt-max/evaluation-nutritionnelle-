@@ -1,583 +1,410 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Évaluation alimentaire 24h</title>
-    <!-- Logo dans l'onglet -->
-  <link rel="icon" type="image/png" href="./logo.png">
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    /* ===== Style général ===== */
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-
-    /* ===== En-tête ===== */
-    header {
-      background: linear-gradient(90deg, #2c3e50, #34495e);
-      color: white;
-      padding: 10px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    header .logo {
-      flex-shrink: 0;
-    }
-
-    header .logo img {
-      display: block;
-      width: 150px;
-      height: 110px;
-      object-fit: contain;
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(130, 210, 147, 0.6);
-      transition: transform 0.3s ease;
-    }
-
-    header .logo img:hover {
-      transform: scale(1.04);
-    }
-
-    /* ===== Navigation ===== */
-    nav {
-      min-width: 0;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 25px;
-      margin: 0;
-      padding: 0;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      font-size: 1rem;
-      line-height: 1.4;
-      display: block;
-      padding: 8px;
-      border-radius: 6px;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    nav ul li a:hover {
-      color: #1abc9c;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* ===== Contenu principal ===== */
-    main {
-      width: 100%;
-      max-width: 1250px;
-      padding: 30px;
-      margin: 0 auto;
-    }
-
-    h1.titre-principal {
-      text-align: center;
-      color: #2c3e50;
-      font-size: 2.2rem;
-      line-height: 1.3;
-      margin: 15px 0 35px;
-    }
-
-    h2 {
-      color: #2c3e50;
-      line-height: 1.35;
-    }
-
-    h3 {
-      margin-top: 40px;
-      margin-bottom: 15px;
-      color: #34495e;
-    }
-
-    /* ===== Tableaux alimentaires ===== */
-    .table-responsive {
-      width: 100%;
-      max-width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-bottom: 12px;
-      border-radius: 4px;
-    }
-
-    .table-repas {
-      width: 100%;
-      min-width: 1250px;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .table-repas th,
-    .table-repas td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .table-repas th {
-      background: #1abc9c;
-      color: white;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .table-repas td {
-      background: white;
-    }
-
-    .table-repas input {
-      width: 100%;
-      min-width: 70px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .table-repas input:focus {
-      outline: none;
-      border-color: #1abc9c;
-      box-shadow: 0 0 4px rgba(26, 188, 156, 0.3);
-    }
-
-    /* ===== Boutons ===== */
-    button {
-      margin: 5px 3px;
-      padding: 11px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-      transition: background 0.2s;
-    }
-
-    .btn-add {
-      background: #27ae60;
-      color: white;
-    }
-
-    .btn-add:hover {
-      background: #219653;
-    }
-
-    .btn-remove {
-      background: #c0392b;
-      color: white;
-    }
-
-    .btn-remove:hover {
-      background: #a93226;
-    }
-
-    .btn-calc {
-      background: #2980b9;
-      color: white;
-      display: block;
-      margin: 25px auto;
-      padding: 13px 20px;
-    }
-
-    .btn-calc:hover {
-      background: #216a9b;
-    }
-
-    /* ===== Résultats ===== */
-    .total-repas,
-    #total-journee {
-      font-weight: bold;
-      color: #2c3e50;
-      margin: 12px 0 20px;
-      line-height: 1.5;
-    }
-
-    #total-journee {
-      text-align: center;
-      font-size: 1.1rem;
-      padding: 15px;
-      background: #eafaf1;
-      border-radius: 8px;
-    }
-
-    /* ===== Bilan micronutriments ===== */
-    #bilan-micronutriments {
-      margin: 30px 0;
-      padding: 22px;
-      background: #fff;
-      border: 1px solid #dce5e8;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
-    #bilan-micronutriments h2 { text-align: center; }
-    #bilan-micronutriments > p { line-height: 1.6; }
-    #tableau-bilan { min-width: 420px; }
-    #tableau-bilan th:first-child, #tableau-bilan td:first-child { text-align: left; }
-    #bilan-micronutriments .astuce { margin-top: 15px; }
-
-    /* ===== Guide des portions ===== */
-    #guide-portions {
-      background: #fdfdfd;
-      border: 2px solid #1abc9c;
-      border-radius: 12px;
-      padding: 22px;
-      margin-top: 35px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    }
-
-    #guide-portions h2 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    #guide-portions > p {
-      text-align: center;
-      color: #555;
-      line-height: 1.6;
-    }
-
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 15px;
-    }
-
-    .card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
-      transition: background 0.2s;
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
-
-    .card:hover {
-      background: #eafaf1;
-    }
-
-    .card h3 {
-      margin: 5px 0 10px;
-      color: #159b7d;
-      font-size: 1rem;
-    }
-
-    .card p {
-      line-height: 1.6;
-      font-style: normal;
-      color: #555;
-      margin-bottom: 0;
-    }
-
-    .link-ciqual {
-      text-align: center;
-      margin-top: 22px;
-      line-height: 1.6;
-    }
-
-    .link-ciqual a,
-    .astuce a {
-      color: #2980b9;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .link-ciqual a:hover,
-    .astuce a:hover {
-      text-decoration: underline;
-    }
-
-    /* ===== Graphique ===== */
-    #graphique-apports {
-      width: 100%;
-      max-width: 650px;
-      margin: 35px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    #graphique-apports h2 {
-      text-align: center;
-      font-size: 1.4rem;
-    }
-
-    .graphique-container {
-      position: relative;
-      width: 100%;
-      height: 320px;
-    }
-
-    /* ===== Astuce ===== */
-    .astuce {
-      background: #eef3ff;
-      padding: 15px;
-      margin-top: 25px;
-      border: 1px solid #ccd6e8;
-      border-radius: 8px;
-      line-height: 1.6;
-    }
-
-    /* ===== Tablettes ===== */
-    @media (min-width: 601px) and (max-width: 900px) {
-      main {
-        padding: 22px;
-      }
-
-      header {
-        padding: 12px 20px;
-        gap: 15px;
-      }
-
-      header .logo img {
-        width: 120px;
-        height: 90px;
-      }
-
-      nav ul {
-        gap: 10px;
-      }
-
-      nav ul li a {
-        font-size: 14px;
-      }
-
-      .cards-container {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    /* ===== Téléphones ===== */
-    @media (max-width: 600px) {
-      body {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        font-size: 14px;
-      }
-
-      /* Header compact et menu lisible */
-      header {
-        width: 100%;
-        min-height: 88px;
-        padding: 10px 12px;
-        gap: 8px;
-        align-items: center;
-      }
-
-      header .logo {
-        flex: 0 0 82px;
-        width: 82px;
-        height: 62px;
-        overflow: hidden;
-        border-radius: 50%;
-      }
-
-      header .logo img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-
-      nav {
-        flex: 1;
-        min-width: 0;
-      }
-
-      nav ul {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: center;
-        gap: 3px;
-      }
-
-      nav ul li {
-        max-width: 100%;
-      }
-
-      nav ul li a {
-        font-size: 11px;
-        line-height: 1.25;
-        padding: 3px 0 3px 4px;
-        text-align: right;
-        overflow-wrap: anywhere;
-      }
-
-      /* Espacement et titre */
-      main {
-        width: 100%;
-        max-width: 100%;
-        padding: 16px 12px 25px;
-        margin: 0;
-      }
-
-      h1.titre-principal {
-        font-size: 1.6rem;
-        line-height: 1.3;
-        margin: 18px 0 28px;
-        overflow-wrap: break-word;
-      }
-
-      h3 {
-        font-size: 1.1rem;
-        margin-top: 30px;
-      }
-
-      /* Tableaux : défilement horizontal */
-      .table-responsive {
-        display: block;
-        width: 100%;
-        max-width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain;
-      }
-
-      .table-repas {
-        width: 1250px;
-        min-width: 1250px;
-        max-width: none;
-        table-layout: auto;
-      }
-
-      .table-repas th,
-      .table-repas td {
-        padding: 8px;
-        font-size: 12px;
-      }
-
-      .table-repas input {
-        width: 100px;
-        min-width: 100px;
-        min-height: 36px;
-        font-size: 16px;
-      }
-
-      /* Boutons de repas */
-      button {
-        font-size: 12px;
-        padding: 11px 12px;
-        margin: 5px 2px;
-        line-height: 1.3;
-      }
-
-      .btn-add,
-      .btn-remove {
-        max-width: 100%;
-      }
-
-      .btn-calc {
-        display: block;
-        margin: 25px auto;
-        font-size: 14px;
-      }
-
-      /* Guide des portions */
-      #guide-portions {
-        padding: 14px;
-        margin-top: 25px;
-      }
-
-      #guide-portions h2 {
-        font-size: 1.3rem;
-        line-height: 1.4;
-      }
-
-      #guide-portions > p {
-        font-size: 13px;
-      }
-
-      .cards-container {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .card {
-        width: auto;
-        min-width: 0;
-        padding: 10px;
-      }
-
-      .card h3 {
-        font-size: 13px;
-        line-height: 1.4;
-        margin-top: 5px;
-      }
-
-      .card p {
-        font-size: 12px;
-        line-height: 1.6;
-      }
-
-      /* Graphique */
-      #graphique-apports {
-        width: 100%;
-        max-width: 100%;
-        padding: 12px;
-        margin: 25px auto;
-      }
-
-      #graphique-apports h2 {
-        font-size: 1.15rem;
-      }
-
-      .graphique-container {
-        height: 260px;
-      }
-
-      /* Totaux et astuce */
-      #total-journee {
-        font-size: 14px;
-        padding: 12px;
-        overflow-wrap: anywhere;
-      }
-
-      .astuce {
-        padding: 12px;
-        font-size: 13px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Évaluation alimentaire sur 24h</title>
+<link rel="icon" type="image/png" href="./logo.png">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  margin: 0;
+  overflow-x: hidden;
+}
+/* HEADER */
+header {
+  background: linear-gradient(90deg,#2c3e50,#34495e);
+  color: white;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+header .logo img {
+  width: 150px;
+  height: 110px;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 6px;
+}
+nav a:hover {
+  color: #1abc9c;
+  background: rgba(255,255,255,.08);
+}
+/* CONTENU */
+main {
+  width: 100%;
+  max-width: 1250px;
+  padding: 30px;
+  margin: auto;
+}
+.titre-principal {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2.2rem;
+  line-height: 1.3;
+  margin: 20px 0 35px;
+}
+h2,h3 {
+  color: #2c3e50;
+}
+h3 {
+  margin-top: 35px;
+}
+/* TABLEAUX */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 12px;
+}
+.table-repas {
+  width: 100%;
+  min-width: 1250px;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+}
+.table-repas th,
+.table-repas td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+.table-repas th {
+  background: #1abc9c;
+  color: white;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.table-repas td {
+  background: white;
+}
+.table-repas input {
+  width: 100%;
+  min-width: 75px;
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.table-repas input:focus {
+  outline: none;
+  border-color: #1abc9c;
+  box-shadow: 0 0 4px rgba(26,188,156,.3);
+}
+.table-repas input[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
+/* BOUTONS */
+button {
+  margin: 5px 3px;
+  padding: 11px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: .2s;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #f39c12;
+  outline-offset: 3px;
+}
+.btn-add {
+  background: #27ae60;
+  color: white;
+}
+.btn-add:hover {
+  background: #219653;
+}
+.btn-remove {
+  background: #c0392b;
+  color: white;
+}
+.btn-remove:hover {
+  background: #a93226;
+}
+.btn-calc {
+  background: #2980b9;
+  color: white;
+  display: block;
+  margin: 30px auto;
+  padding: 14px 25px;
+  font-size: 15px;
+}
+.btn-calc:hover {
+  background: #216a9b;
+}
+/* TOTAUX */
+.total-repas {
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 12px 0 25px;
+}
+#total-journee {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 20px;
+  margin: 20px 0;
+  background: #eafaf1;
+  border-radius: 10px;
+  color: #2c3e50;
+  line-height: 1.7;
+}
+/* BILAN */
+#bilan-micronutriments {
+  margin: 35px 0;
+  padding: 22px;
+  background: white;
+  border: 1px solid #dce5e8;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+#bilan-micronutriments h2 {
+  text-align: center;
+}
+#tableau-bilan {
+  min-width: 420px;
+}
+#tableau-bilan th:first-child,
+#tableau-bilan td:first-child {
+  text-align: left;
+}
+.note {
+  background: #eef3ff;
+  border: 1px solid #ccd6e8;
+  padding: 15px;
+  border-radius: 8px;
+  line-height: 1.6;
+  margin-top: 18px;
+}
+/* GUIDE DES PORTIONS */
+#guide-portions {
+  background: #fdfdfd;
+  border: 2px solid #1abc9c;
+  border-radius: 12px;
+  padding: 22px;
+  margin-top: 35px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+#guide-portions h2,
+#guide-portions > p {
+  text-align: center;
+}
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 15px;
+}
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,.07);
+  transition: .2s;
+}
+.card:hover {
+  background: #eafaf1;
+}
+.card h3 {
+  margin: 5px 0 10px;
+  color: #159b7d;
+  font-size: 1rem;
+}
+.card p {
+  line-height: 1.7;
+  color: #555;
+}
+/* LIENS */
+.link-ciqual {
+  text-align: center;
+  margin-top: 22px;
+}
+.link-ciqual a,
+.astuce a {
+  color: #2980b9;
+  font-weight: bold;
+  text-decoration: none;
+}
+.link-ciqual a:hover,
+.astuce a:hover {
+  text-decoration: underline;
+}
+/* GRAPHIQUE */
+#graphique-apports {
+  max-width: 650px;
+  width: 100%;
+  margin: 35px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+#graphique-apports h2 {
+  text-align: center;
+  font-size: 1.4rem;
+}
+.graphique-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+}
+/* ASTUCE */
+.astuce {
+  background: #eef3ff;
+  padding: 15px;
+  margin-top: 25px;
+  border: 1px solid #ccd6e8;
+  border-radius: 8px;
+  line-height: 1.7;
+}
+/* TABLETTES */
+@media (min-width:601px) and (max-width:900px) {
+  main {
+    padding: 22px;
+  }
+  header {
+    padding: 12px 20px;
+  }
+  header .logo img {
+    width: 120px;
+    height: 90px;
+  }
+  nav ul {
+    gap: 8px;
+  }
+  nav a {
+    font-size: 13px;
+  }
+  .cards-container {
+    grid-template-columns: repeat(3,minmax(0,1fr));
+  }
+}
+/* TELEPHONES */
+@media (max-width:600px) {
+  body {
+    font-size: 14px;
+  }
+  header {
+    min-height: 85px;
+    padding: 10px;
+    gap: 8px;
+  }
+  header .logo img {
+    width: 75px;
+    height: 65px;
+  }
+  nav {
+    flex: 1;
+    min-width: 0;
+  }
+  nav ul {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+  }
+  nav a {
+    font-size: 11px;
+    padding: 3px;
+  }
+  main {
+    padding: 16px 12px 25px;
+  }
+  .titre-principal {
+    font-size: 1.6rem;
+    margin: 18px 0 28px;
+  }
+  h3 {
+    font-size: 1.1rem;
+  }
+  .table-repas {
+    width: 1250px;
+    min-width: 1250px;
+  }
+  .table-repas th,
+  .table-repas td {
+    padding: 8px;
+    font-size: 12px;
+  }
+  .table-repas input {
+    width: 100px;
+    min-width: 100px;
+    min-height: 38px;
+    font-size: 16px;
+  }
+  button {
+    font-size: 12px;
+    padding: 11px 12px;
+  }
+  .btn-calc {
+    font-size: 14px;
+  }
+  #guide-portions {
+    padding: 14px;
+  }
+  .cards-container {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px;
+  }
+  .card {
+    padding: 10px;
+  }
+  .card h3 {
+    font-size: 13px;
+  }
+  .card p {
+    font-size: 12px;
+  }
+  #graphique-apports {
+    padding: 12px;
+  }
+  .graphique-container {
+    height: 260px;
+  }
+  #total-journee {
+    font-size: 14px;
+    padding: 12px;
+  }
+  .astuce,
+  .note {
+    font-size: 13px;
+  }
+}
+</style>
 </head>
-
 <body id="evaluation-page">
-
 <header>
   <div class="logo">
-    <img src="logo.png" alt="Logo du site">
+    <img src="./logo.png" alt="Logo du site">
   </div>
-
   <nav>
     <ul>
       <li><a href="index.html">Accueil</a></li>
@@ -586,364 +413,458 @@
     </ul>
   </nav>
 </header>
-
 <main>
-  <h1 class="titre-principal">
-    Évaluation de la consommation alimentaire sur 24h
-  </h1>
-
-  <!-- Petit-déjeuner -->
-  <h3>🥣 Petit-déjeuner</h3>
-
-  <div class="table-responsive">
-    <table class="table-repas" id="table-petitdej">
-      <thead>
-        <tr>
-          <th>Aliment</th>
-          <th>Quantité (g)</th>
-          <th>Glucides (g/100g)</th>
-          <th>Lipides (g/100g)</th>
-          <th>Protéines (g/100g)</th>
-          <th>Cholestérol (mg/100g)</th>
-          <th>Vitamine B (mg/100g)</th>
-          <th>Vitamine C (mg/100g)</th>
-          <th>Vitamine D (µg/100g)</th>
-          <th>Vitamine E (mg/100g)</th>
-          <th>Fibres (g/100g)</th>
-          <th>Énergie (kcal)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="text" placeholder="Ex: Yaourt nature" aria-label="Aliment du petit-déjeuner"></td>
-          <td><input type="number" class="qte" min="0" step="any" aria-label="Quantité en grammes"></td>
-          <td><input type="number" class="glucides" min="0" step="any" aria-label="Glucides pour 100 g"></td>
-          <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
-          <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
-          <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
-          <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
-          <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
-          <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
-          <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E pour 100 g"></td>
-          <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres pour 100 g"></td>
-          <td class="energie">0</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <button type="button" class="btn-add" onclick="ajouterLigne('table-petitdej')">+ Ajouter une ligne</button>
-  <button type="button" class="btn-remove" onclick="supprimerLigne('table-petitdej')">− Supprimer la dernière ligne</button>
-
-  <!-- Déjeuner -->
-  <h3>🍛 Déjeuner</h3>
-
-  <div class="table-responsive">
-    <table class="table-repas" id="table-dejeuner">
-      <thead>
-        <tr>
-          <th>Aliment</th>
-          <th>Quantité (g)</th>
-          <th>Glucides (g/100g)</th>
-          <th>Lipides (g/100g)</th>
-          <th>Protéines (g/100g)</th>
-          <th>Cholestérol (mg/100g)</th>
-          <th>Vitamine B (mg/100g)</th>
-          <th>Vitamine C (mg/100g)</th>
-          <th>Vitamine D (µg/100g)</th>
-          <th>Vitamine E (mg/100g)</th>
-          <th>Fibres (g/100g)</th>
-          <th>Énergie (kcal)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="text" placeholder="Ex: Tajine de poulet" aria-label="Aliment du déjeuner"></td>
-          <td><input type="number" class="qte" min="0" step="any" aria-label="Quantité en grammes"></td>
-          <td><input type="number" class="glucides" min="0" step="any" aria-label="Glucides pour 100 g"></td>
-          <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
-          <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
-          <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
-          <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
-          <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
-          <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
-          <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E pour 100 g"></td>
-          <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres pour 100 g"></td>
-          <td class="energie">0</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <button type="button" class="btn-add" onclick="ajouterLigne('table-dejeuner')">+ Ajouter une ligne</button>
-  <button type="button" class="btn-remove" onclick="supprimerLigne('table-dejeuner')">− Supprimer la dernière ligne</button>
-
-  <!-- Dîner -->
-  <h3>🍽️ Dîner</h3>
-
-  <div class="table-responsive">
-    <table class="table-repas" id="table-diner">
-      <thead>
-        <tr>
-          <th>Aliment</th>
-          <th>Quantité (g)</th>
-          <th>Glucides (g/100g)</th>
-          <th>Lipides (g/100g)</th>
-          <th>Protéines (g/100g)</th>
-          <th>Cholestérol (mg/100g)</th>
-          <th>Vitamine B (mg/100g)</th>
-          <th>Vitamine C (mg/100g)</th>
-          <th>Vitamine D (µg/100g)</th>
-          <th>Vitamine E (mg/100g)</th>
-          <th>Fibres (g/100g)</th>
-          <th>Énergie (kcal)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="text" placeholder="Ex: Soupe de légumes" aria-label="Aliment du dîner"></td>
-          <td><input type="number" class="qte" min="0" step="any" aria-label="Quantité en grammes"></td>
-          <td><input type="number" class="glucides" min="0" step="any" aria-label="Glucides pour 100 g"></td>
-          <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides pour 100 g"></td>
-          <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines pour 100 g"></td>
-          <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol pour 100 g"></td>
-          <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B pour 100 g"></td>
-          <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C pour 100 g"></td>
-          <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D pour 100 g"></td>
-          <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E pour 100 g"></td>
-          <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres pour 100 g"></td>
-          <td class="energie">0</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <button type="button" class="btn-add" onclick="ajouterLigne('table-diner')">+ Ajouter une ligne</button>
-  <button type="button" class="btn-remove" onclick="supprimerLigne('table-diner')">− Supprimer la dernière ligne</button>
-
-  <!-- Calcul des apports -->
-  <button type="button" class="btn-calc" onclick="calculerApports()">Calculer les apports</button>
-
-  <p id="total-journee" aria-live="polite"></p>
-
-  <!-- Bilan journalier du cholestérol et des vitamines -->
-  <section id="bilan-micronutriments" aria-live="polite">
-    <h2>🧪 Bilan journalier : cholestérol et vitamines</h2>
-    <p>Les valeurs sont calculées à partir des quantités consommées et des valeurs saisies pour 100 g d’aliment.</p>
-    <div class="table-responsive">
-      <table class="table-repas" id="tableau-bilan">
-        <thead><tr><th>Élément</th><th>Apport journalier</th><th>Unité</th></tr></thead>
-        <tbody id="resultats-micronutriments">
-          <tr><td>Cholestérol</td><td>0</td><td>mg</td></tr>
-          <tr><td>Vitamine B (valeur globale saisie)</td><td>0</td><td>mg</td></tr>
-          <tr><td>Vitamine C</td><td>0</td><td>mg</td></tr>
-          <tr><td>Vitamine D</td><td>0</td><td>µg</td></tr>
-          <tr><td>Vitamine E</td><td>0</td><td>mg</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="astuce">Important : saisissez les valeurs nutritionnelles provenant d’une même base de composition alimentaire, pour 100 g de l’aliment correspondant. Une case vide est traitée comme une valeur non renseignée et contribue à zéro au calcul affiché ; le résultat peut donc être sous-estimé.</p>
-  </section>
-
-  <!-- Guide des portions -->
-  <section id="guide-portions">
-    <h2>📷 Guide des portions alimentaires et contenants</h2>
-
-    <p>
-      Choisissez le repère (A, B, C) qui correspond le mieux
-      à votre portion ou contenant habituel.
-    </p>
-
-    <div class="cards-container">
-      <div class="card"><h3>🥗 Crudités</h3><p>A = 50 g<br>B = 100 g<br>C = 150 g</p></div>
-      <div class="card"><h3>🥩 Viande</h3><p>A = 80 g<br>B = 130 g<br>C = 200 g</p></div>
-      <div class="card"><h3>🍗 Volaille</h3><p>A = 60 g<br>B = 150 g<br>C = 220 g</p></div>
-      <div class="card"><h3>🐟 Poisson</h3><p>A = 50 g<br>B = 100 g<br>C = 150 g</p></div>
-      <div class="card"><h3>🍟 Frites / Pommes</h3><p>A = 100 g<br>B = 200 g<br>C = 300 g</p></div>
-      <div class="card"><h3>🍝 Pâtes</h3><p>A = 70 g<br>B = 170 g<br>C = 270 g</p></div>
-      <div class="card"><h3>🥖 Pain</h3><p>A = 30 g<br>B = 60 g<br>C = 120 g</p></div>
-      <div class="card"><h3>🍎 Fruit (pomme)</h3><p>A = 150 g<br>B = 200 g<br>C = 220 g</p></div>
-      <div class="card"><h3>🧀 Fromage</h3><p>A = 30 g<br>B = 60 g<br>C = 80 g</p></div>
-      <div class="card"><h3>🥜 Oléagineux</h3><p>A = 20 g<br>B = 40 g<br>C = 60–90 g</p></div>
-      <div class="card"><h3>🧈 Beurre</h3><p>A = 5 g<br>B = 10 g<br>C = 20–30 g</p></div>
-      <div class="card"><h3>🫒 Huile</h3><p>A = 1 c. à s. ≈ 10 g<br>B = 2 c. à s. ≈ 20 g<br>C = 3 c. à s. ≈ 30 g</p></div>
-      <div class="card"><h3>🍫 Chocolat</h3><p>A = 25 g<br>B = 50 g<br>C = 100 g</p></div>
-      <div class="card"><h3>🥤 Verres (eau/jus)</h3><p>A = 110 ml<br>B = 150 ml<br>C = 200 ml<br>D = 280 ml</p></div>
-      <div class="card"><h3>🍵 Tasses (boissons chaudes)</h3><p>I = 70 ml<br>J = 150 ml<br>K = 250 ml<br>L = 400 ml</p></div>
-      <div class="card"><h3>🍲 Bol de soupe</h3><p>A = 150 g<br>B = 250 g<br>C = 400 g</p></div>
-      <div class="card"><h3>🥗 Assiette de salade</h3><p>A = 25 g<br>B = 50 g<br>C = 70 g</p></div>
-    </div>
-
-    <p class="link-ciqual">
-      🔗 Pour plus de détails, consultez le
-      <a href="https://ciqual.anses.fr/" target="_blank" rel="noopener noreferrer">Ciqual – Table officielle ANSES</a>
-    </p>
-  </section>
-
-  <!-- Graphique -->
-  <section id="graphique-apports">
-    <h2>📊 Répartition des macronutriments</h2>
-    <div class="graphique-container">
-      <canvas id="macrosChart"></canvas>
-    </div>
-  </section>
-
-  <!-- Astuce -->
-  <div class="astuce">
-    <strong>💡 Astuce :</strong>
-    Pour trouver les valeurs de glucides, lipides, protéines, fibres et énergie,
-    consultez la base officielle :
-    <a href="https://ciqual.anses.fr/" target="_blank" rel="noopener noreferrer">Ciqual – ANSES</a>.
-    Saisissez les valeurs nutritionnelles pour 100 g d'aliment.
-  </div>
+<h1 class="titre-principal">
+  Évaluation de la consommation alimentaire sur 24h
+</h1>
+<!-- PETIT-DEJEUNER -->
+<h3>🥣 Petit-déjeuner</h3>
+<div class="table-responsive">
+<table class="table-repas" id="table-petitdej">
+<thead>
+<tr>
+  <th>Aliment</th>
+  <th>Quantité (g)</th>
+  <th>Glucides (g/100g)</th>
+  <th>Lipides (g/100g)</th>
+  <th>Protéines (g/100g)</th>
+  <th>Cholestérol (mg/100g)</th>
+  <th>Vitamine B* (mg/100g)</th>
+  <th>Vitamine C (mg/100g)</th>
+  <th>Vitamine D (µg/100g)</th>
+  <th>Vitamine E (mg/100g)</th>
+  <th>Fibres (g/100g)</th>
+  <th>Énergie (kcal)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><input type="text" placeholder="Ex : Yaourt nature" aria-label="Aliment"></td>
+  <td><input type="number" class="qte" min="0" step="any" aria-label="Quantité"></td>
+  <td><input type="number" class="glucides" min="0" step="any" aria-label="Glucides"></td>
+  <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides"></td>
+  <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines"></td>
+  <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol"></td>
+  <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B"></td>
+  <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C"></td>
+  <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D"></td>
+  <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E"></td>
+  <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres"></td>
+  <td class="energie">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<button type="button" class="btn-add" onclick="ajouterLigne('table-petitdej')">+ Ajouter une ligne</button>
+<button type="button" class="btn-remove" onclick="supprimerLigne('table-petitdej')">− Supprimer la dernière ligne</button>
+<!-- DEJEUNER -->
+<h3>🍛 Déjeuner</h3>
+<div class="table-responsive">
+<table class="table-repas" id="table-dejeuner">
+<thead>
+<tr>
+  <th>Aliment</th>
+  <th>Quantité (g)</th>
+  <th>Glucides (g/100g)</th>
+  <th>Lipides (g/100g)</th>
+  <th>Protéines (g/100g)</th>
+  <th>Cholestérol (mg/100g)</th>
+  <th>Vitamine B* (mg/100g)</th>
+  <th>Vitamine C (mg/100g)</th>
+  <th>Vitamine D (µg/100g)</th>
+  <th>Vitamine E (mg/100g)</th>
+  <th>Fibres (g/100g)</th>
+  <th>Énergie (kcal)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><input type="text" placeholder="Ex : Tajine de poulet" aria-label="Aliment"></td>
+  <td><input type="number" class="qte" min="0" step="any" aria-label="Quantité"></td>
+  <td><input type="number" class="glucides" min="0" step="any" aria-label="Glucides"></td>
+  <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides"></td>
+  <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines"></td>
+  <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol"></td>
+  <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B"></td>
+  <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C"></td>
+  <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D"></td>
+  <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E"></td>
+  <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres"></td>
+  <td class="energie">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<button type="button" class="btn-add" onclick="ajouterLigne('table-dejeuner')">+ Ajouter une ligne</button>
+<button type="button" class="btn-remove" onclick="supprimerLigne('table-dejeuner')">− Supprimer la dernière ligne</button>
+<!-- DINER -->
+<h3>🍽️ Dîner</h3>
+<div class="table-responsive">
+<table class="table-repas" id="table-diner">
+<thead>
+<tr>
+  <th>Aliment</th>
+  <th>Quantité (g)</th>
+  <th>Glucides (g/100g)</th>
+  <th>Lipides (g/100g)</th>
+  <th>Protéines (g/100g)</th>
+  <th>Cholestérol (mg/100g)</th>
+  <th>Vitamine B* (mg/100g)</th>
+  <th>Vitamine C (mg/100g)</th>
+  <th>Vitamine D (µg/100g)</th>
+  <th>Vitamine E (mg/100g)</th>
+  <th>Fibres (g/100g)</th>
+  <th>Énergie (kcal)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><input type="text" placeholder="Ex : Soupe de légumes" aria-label="Aliment"></td>
+  <td><input type="number" class="qte" min="0" step="any" aria-label="Quantité"></td>
+  <td><input type="number" class="glucides" min="0" step="any" aria-label="Glucides"></td>
+  <td><input type="number" class="lipides" min="0" step="any" aria-label="Lipides"></td>
+  <td><input type="number" class="proteines" min="0" step="any" aria-label="Protéines"></td>
+  <td><input type="number" class="cholesterol" min="0" step="any" aria-label="Cholestérol"></td>
+  <td><input type="number" class="vitB" min="0" step="any" aria-label="Vitamine B"></td>
+  <td><input type="number" class="vitC" min="0" step="any" aria-label="Vitamine C"></td>
+  <td><input type="number" class="vitD" min="0" step="any" aria-label="Vitamine D"></td>
+  <td><input type="number" class="vitE" min="0" step="any" aria-label="Vitamine E"></td>
+  <td><input type="number" class="fibres" min="0" step="any" aria-label="Fibres"></td>
+  <td class="energie">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<button type="button" class="btn-add" onclick="ajouterLigne('table-diner')">+ Ajouter une ligne</button>
+<button type="button" class="btn-remove" onclick="supprimerLigne('table-diner')">− Supprimer la dernière ligne</button>
+<!-- CALCUL -->
+<button type="button" class="btn-calc" onclick="calculerApports()">
+  Calculer les apports
+</button>
+<div id="total-journee" aria-live="polite">
+  Total énergie de la journée : 0 kcal
+</div>
+<!-- BILAN MICRONUTRIMENTS -->
+<section id="bilan-micronutriments">
+<h2>🧪 Bilan journalier : cholestérol et vitamines</h2>
+<p>
+Les apports sont calculés à partir des quantités consommées
+et des valeurs nutritionnelles saisies pour 100 g.
+</p>
+<div class="table-responsive">
+<table class="table-repas" id="tableau-bilan">
+<thead>
+<tr>
+  <th>Élément</th>
+  <th>Apport journalier</th>
+  <th>Unité</th>
+</tr>
+</thead>
+<tbody id="resultats-micronutriments">
+<tr><td>Cholestérol</td><td>0.0</td><td>mg</td></tr>
+<tr><td>Vitamine B* (valeur globale)</td><td>0.00</td><td>mg</td></tr>
+<tr><td>Vitamine C</td><td>0.00</td><td>mg</td></tr>
+<tr><td>Vitamine D</td><td>0.00</td><td>µg</td></tr>
+<tr><td>Vitamine E</td><td>0.00</td><td>mg</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+<strong>Important :</strong>
+Les vitamines B regroupent plusieurs vitamines distinctes.
+Une valeur globale ne permet pas d'évaluer séparément les vitamines
+B1, B2, B3, B5, B6, B8, B9 et B12.
+Les cases non renseignées sont considérées comme nulles dans le calcul,
+ce qui peut sous-estimer les apports.
+</div>
+</section>
+<!-- GUIDE DES PORTIONS -->
+<section id="guide-portions">
+<h2>📷 Guide des portions alimentaires et contenants</h2>
+<p>
+Choisissez le repère (A, B, C) qui correspond le mieux
+à votre portion ou contenant habituel.
+</p>
+<div class="cards-container">
+<div class="card"><h3>🥗 Crudités</h3><p>A = 50 g<br>B = 100 g<br>C = 150 g</p></div>
+<div class="card"><h3>🥩 Viande</h3><p>A = 80 g<br>B = 130 g<br>C = 200 g</p></div>
+<div class="card"><h3>🍗 Volaille</h3><p>A = 60 g<br>B = 150 g<br>C = 220 g</p></div>
+<div class="card"><h3>🐟 Poisson</h3><p>A = 50 g<br>B = 100 g<br>C = 150 g</p></div>
+<div class="card"><h3>🍟 Frites / Pommes</h3><p>A = 100 g<br>B = 200 g<br>C = 300 g</p></div>
+<div class="card"><h3>🍝 Pâtes</h3><p>A = 70 g<br>B = 170 g<br>C = 270 g</p></div>
+<div class="card"><h3>🥖 Pain</h3><p>A = 30 g<br>B = 60 g<br>C = 120 g</p></div>
+<div class="card"><h3>🍎 Fruit (pomme)</h3><p>A = 150 g<br>B = 200 g<br>C = 220 g</p></div>
+<div class="card"><h3>🧀 Fromage</h3><p>A = 30 g<br>B = 60 g<br>C = 80 g</p></div>
+<div class="card"><h3>🥜 Oléagineux</h3><p>A = 20 g<br>B = 40 g<br>C = 60–90 g</p></div>
+<div class="card"><h3>🧈 Beurre</h3><p>A = 5 g<br>B = 10 g<br>C = 20–30 g</p></div>
+<div class="card"><h3>🫒 Huile</h3><p>A = 1 c. à s. ≈ 10 g<br>B = 2 c. à s. ≈ 20 g<br>C = 3 c. à s. ≈ 30 g</p></div>
+<div class="card"><h3>🍫 Chocolat</h3><p>A = 25 g<br>B = 50 g<br>C = 100 g</p></div>
+<div class="card"><h3>🥤 Verres (eau/jus)</h3><p>A = 110 ml<br>B = 150 ml<br>C = 200 ml<br>D = 280 ml</p></div>
+<div class="card"><h3>🍵 Tasses</h3><p>I = 70 ml<br>J = 150 ml<br>K = 250 ml<br>L = 400 ml</p></div>
+<div class="card"><h3>🍲 Bol de soupe</h3><p>A = 150 g<br>B = 250 g<br>C = 400 g</p></div>
+<div class="card"><h3>🥗 Assiette de salade</h3><p>A = 25 g<br>B = 50 g<br>C = 70 g</p></div>
+</div>
+<p class="link-ciqual">
+🔗 Consultez la
+<a href="https://ciqual.anses.fr/" target="_blank" rel="noopener noreferrer">
+Table de composition nutritionnelle Ciqual – ANSES
+</a>
+</p>
+</section>
+<!-- GRAPHIQUE -->
+<section id="graphique-apports">
+<h2>📊 Répartition des macronutriments</h2>
+<div class="graphique-container">
+<canvas id="macrosChart" aria-label="Graphique de répartition des macronutriments" role="img"></canvas>
+</div>
+<p id="graphique-message" class="note" hidden>
+Le graphique nécessite une connexion Internet pour charger Chart.js.
+</p>
+</section>
+<!-- INFORMATIONS -->
+<div class="astuce">
+<strong>💡 Astuce :</strong>
+Pour trouver les valeurs nutritionnelles des aliments,
+utilisez la base officielle :
+<a href="https://ciqual.anses.fr/" target="_blank" rel="noopener noreferrer">
+Ciqual – ANSES
+</a>.
+Saisissez les valeurs pour 100 g d'aliment et indiquez
+la quantité réellement consommée.
+<br><br>
+<strong>Formule énergétique utilisée :</strong>
+<br>
+Énergie (kcal) = (Glucides × 4) + (Lipides × 9) + (Protéines × 4).
+<br><br>
+Ce calcul est une estimation basée sur les facteurs énergétiques
+généraux. Il ne prend pas séparément en compte les fibres,
+l'alcool et les autres constituants énergétiques éventuels.
+</div>
 </main>
-
 <script>
-  /* ===== Ajouter une ligne ===== */
-  function ajouterLigne(tableId) {
+/* =====================================
+   OUTILS DE CALCUL
+===================================== */
+function lireValeur(row, classe) {
+  const input = row.querySelector("." + classe);
+  if (!input || input.value.trim() === "") {
+    return 0;
+  }
+  const valeur = Number(input.value);
+  if (!Number.isFinite(valeur) || valeur < 0) {
+    return 0;
+  }
+  return valeur;
+}
+/* =====================================
+   AJOUTER UNE LIGNE
+===================================== */
+function ajouterLigne(tableId) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const tbody = table.querySelector("tbody");
+  if (!tbody || tbody.rows.length === 0) return;
+  const nouvelleLigne = tbody.rows[0].cloneNode(true);
+  nouvelleLigne.querySelectorAll("input").forEach(input => {
+    input.value = "";
+  });
+  nouvelleLigne.querySelector(".energie").textContent = "0.0";
+  tbody.appendChild(nouvelleLigne);
+  calculerApports();
+}
+/* =====================================
+   SUPPRIMER UNE LIGNE
+===================================== */
+function supprimerLigne(tableId) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const tbody = table.querySelector("tbody");
+  if (tbody && tbody.rows.length > 1) {
+    tbody.deleteRow(tbody.rows.length - 1);
+    calculerApports();
+  }
+}
+/* =====================================
+   CALCUL DES APPORTS
+===================================== */
+function calculerApports() {
+  let totalJournee = 0;
+  let totalGlucides = 0;
+  let totalLipides = 0;
+  let totalProteines = 0;
+  const nutriments = {
+    cholesterol: 0,
+    vitB: 0,
+    vitC: 0,
+    vitD: 0,
+    vitE: 0
+  };
+  const tables = [
+    "table-petitdej",
+    "table-dejeuner",
+    "table-diner"
+  ];
+  tables.forEach(tableId => {
     const table = document.getElementById(tableId);
     if (!table) return;
-
-    const tbody = table.querySelector("tbody");
-    if (!tbody || !tbody.rows.length) return;
-
-    const nouvelleLigne = tbody.rows[0].cloneNode(true);
-
-    nouvelleLigne.querySelectorAll("input").forEach(input => {
-      input.value = "";
-    });
-
-    nouvelleLigne.querySelector(".energie").textContent = "0";
-
-    tbody.appendChild(nouvelleLigne);
-  }
-
-  /* ===== Supprimer une ligne ===== */
-  function supprimerLigne(tableId) {
-    const table = document.getElementById(tableId);
-    if (!table) return;
-
-    const tbody = table.querySelector("tbody");
-
-    if (tbody && tbody.rows.length > 1) {
-      tbody.deleteRow(tbody.rows.length - 1);
-      calculerApports();
-    }
-  }
-
-  /* ===== Calcul des apports énergétiques et nutritionnels ===== */
-  function calculerApports() {
-    let totalJournee = 0;
-    let totalGlucides = 0;
-    let totalLipides = 0;
-    let totalProteines = 0;
-
-    const nutriments = {
-      cholesterol: 0,
-      vitB: 0,
-      vitC: 0,
-      vitD: 0,
-      vitE: 0
-    };
-
-    document.querySelectorAll(".table-repas").forEach(table => {
-      // Le tableau de bilan ne contient pas de lignes alimentaires.
-      if (!table.id.startsWith("table-") || table.id === "tableau-bilan") return;
-      let totalEnergieRepas = 0;
-
-      table.querySelectorAll("tbody tr").forEach(row => {
-        const lire = classe => Math.max(0, parseFloat(row.querySelector("." + classe)?.value) || 0);
-        const qte = lire("qte");
-        const glucides = lire("glucides") * qte / 100;
-        const lipides = lire("lipides") * qte / 100;
-        const proteines = lire("proteines") * qte / 100;
-        const energie = glucides * 4 + lipides * 9 + proteines * 4;
-
-        row.querySelector(".energie").textContent = energie.toFixed(1);
-        totalEnergieRepas += energie;
-        totalGlucides += glucides;
-        totalLipides += lipides;
-        totalProteines += proteines;
-
-        Object.keys(nutriments).forEach(nom => {
-          nutriments[nom] += lire(nom) * qte / 100;
-        });
+    let totalEnergieRepas = 0;
+    table.querySelectorAll("tbody tr").forEach(row => {
+      const qte = lireValeur(row, "qte");
+      const glucides100 = lireValeur(row, "glucides");
+      const lipides100 = lireValeur(row, "lipides");
+      const proteines100 = lireValeur(row, "proteines");
+      /* Conversion selon la quantité consommée */
+      const glucides = glucides100 * qte / 100;
+      const lipides = lipides100 * qte / 100;
+      const proteines = proteines100 * qte / 100;
+      /* Calcul énergétique */
+      const energie =
+        (glucides * 4) +
+        (lipides * 9) +
+        (proteines * 4);
+      row.querySelector(".energie").textContent =
+        energie.toFixed(1);
+      totalEnergieRepas += energie;
+      totalGlucides += glucides;
+      totalLipides += lipides;
+      totalProteines += proteines;
+      /* Micronutriments */
+      Object.keys(nutriments).forEach(nom => {
+        nutriments[nom] +=
+          lireValeur(row, nom) * qte / 100;
       });
-
-      let paragraphe = table.parentElement.nextElementSibling;
-      if (!paragraphe || !paragraphe.classList.contains("total-repas")) {
-        paragraphe = document.createElement("p");
-        paragraphe.className = "total-repas";
-        table.parentElement.insertAdjacentElement("afterend", paragraphe);
-      }
-      paragraphe.textContent = "Total énergie du repas : " + totalEnergieRepas.toFixed(1) + " kcal";
-      totalJournee += totalEnergieRepas;
     });
-
-    document.getElementById("total-journee").textContent =
-      "Total énergie de la journée : " + totalJournee.toFixed(1) + " kcal";
-
-    const lignes = [
-      ["Cholestérol", nutriments.cholesterol, "mg", 1],
-      ["Vitamine B (valeur globale saisie)", nutriments.vitB, "mg", 2],
-      ["Vitamine C", nutriments.vitC, "mg", 2],
-      ["Vitamine D", nutriments.vitD, "µg", 2],
-      ["Vitamine E", nutriments.vitE, "mg", 2]
-    ];
-    document.getElementById("resultats-micronutriments").innerHTML = lignes.map(([nom, valeur, unite, decimales]) =>
-      `<tr><td>${nom}</td><td>${valeur.toFixed(decimales)}</td><td>${unite}</td></tr>`
-    ).join("");
-
-    actualiserGraphique(totalGlucides, totalLipides, totalProteines);
-  }
-
-  /* ===== Graphique des macronutriments ===== */
-  let macrosChart = null;
-
-  function actualiserGraphique(glucides, lipides, proteines) {
-    const canvas = document.getElementById("macrosChart");
-    if (!canvas || typeof Chart === "undefined") return;
-
-    if (macrosChart) {
-      macrosChart.data.datasets[0].data = [glucides * 4, lipides * 9, proteines * 4];
-      macrosChart.update();
-      return;
+    /* Total par repas */
+    const conteneur = table.closest(".table-responsive");
+    let paragraphe = conteneur.nextElementSibling;
+    if (!paragraphe ||
+        !paragraphe.classList.contains("total-repas")) {
+      paragraphe = document.createElement("p");
+      paragraphe.className = "total-repas";
+      conteneur.insertAdjacentElement("afterend", paragraphe);
     }
-
-    macrosChart = new Chart(canvas, {
-      type: "doughnut",
-      data: {
-        labels: ["Glucides (kcal)", "Lipides (kcal)", "Protéines (kcal)"],
-        datasets: [{
-          data: [glucides * 4, lipides * 9, proteines * 4],
-          backgroundColor: ["#1abc9c", "#f39c12", "#3498db"],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: "bottom"
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return context.label + " : " + context.raw.toFixed(1) + " kcal";
-              }
+    paragraphe.textContent =
+      "Total énergie du repas : " +
+      totalEnergieRepas.toFixed(1) +
+      " kcal";
+    totalJournee += totalEnergieRepas;
+  });
+  /* =====================================
+     TOTAL JOURNALIER
+  ===================================== */
+  document.getElementById("total-journee").textContent =
+    "Total énergie de la journée : " +
+    totalJournee.toFixed(1) +
+    " kcal";
+  /* =====================================
+     BILAN DES MICRONUTRIMENTS
+  ===================================== */
+  const lignes = [
+    ["Cholestérol", nutriments.cholesterol, "mg", 1],
+    ["Vitamine B* (valeur globale)", nutriments.vitB, "mg", 2],
+    ["Vitamine C", nutriments.vitC, "mg", 2],
+    ["Vitamine D", nutriments.vitD, "µg", 2],
+    ["Vitamine E", nutriments.vitE, "mg", 2]
+  ];
+  const tbody =
+    document.getElementById("resultats-micronutriments");
+  /* Création sécurisée des cellules */
+  tbody.replaceChildren();
+  lignes.forEach(([nom, valeur, unite, decimales]) => {
+    const tr = document.createElement("tr");
+    const tdNom = document.createElement("td");
+    const tdValeur = document.createElement("td");
+    const tdUnite = document.createElement("td");
+    tdNom.textContent = nom;
+    tdValeur.textContent = valeur.toFixed(decimales);
+    tdUnite.textContent = unite;
+    tr.append(tdNom, tdValeur, tdUnite);
+    tbody.appendChild(tr);
+  });
+  /* =====================================
+     ACTUALISATION DU GRAPHIQUE
+  ===================================== */
+  actualiserGraphique(
+    totalGlucides,
+    totalLipides,
+    totalProteines
+  );
+}
+/* =====================================
+   GRAPHIQUE DES MACRONUTRIMENTS
+===================================== */
+let macrosChart = null;
+function actualiserGraphique(glucides, lipides, proteines) {
+  const canvas = document.getElementById("macrosChart");
+  const message = document.getElementById("graphique-message");
+  if (!canvas) return;
+  if (typeof Chart === "undefined") {
+    message.hidden = false;
+    return;
+  }
+  message.hidden = true;
+  const donnees = [
+    glucides * 4,
+    lipides * 9,
+    proteines * 4
+  ];
+  if (macrosChart) {
+    macrosChart.data.datasets[0].data = donnees;
+    macrosChart.update();
+    return;
+  }
+  macrosChart = new Chart(canvas, {
+    type: "doughnut",
+    data: {
+      labels: [
+        "Glucides",
+        "Lipides",
+        "Protéines"
+      ],
+      datasets: [{
+        data: donnees,
+        backgroundColor: [
+          "#1abc9c",
+          "#f39c12",
+          "#3498db"
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom"
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + " : " +
+                context.raw.toFixed(1) + " kcal";
             }
           }
         }
       }
-    });
-  }
-
-  /* Initialiser le graphique */
-  document.addEventListener("DOMContentLoaded", function() {
-    actualiserGraphique(0, 0, 0);
+    }
   });
+}
+/* =====================================
+   CALCUL AUTOMATIQUE À LA SAISIE
+===================================== */
+document.addEventListener("input", function(event) {
+  if (event.target.closest(".table-repas") &&
+      event.target.matches("input")) {
+    calculerApports();
+  }
+});
+/* =====================================
+   INITIALISATION
+===================================== */
+document.addEventListener("DOMContentLoaded", function() {
+  calculerApports();
+});
 </script>
-
 </body>
 </html>
