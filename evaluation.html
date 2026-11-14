@@ -398,6 +398,106 @@ a:focus-visible {
     font-size: 13px;
   }
 }
+/* BOUTON PDF */
+.pdf-container {
+  text-align: center;
+  margin: 25px 0;
+}
+
+.btn-pdf {
+  background: #718b78;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.btn-pdf:hover {
+  background: #526e5a;
+}
+/* VERSION IMPRIMABLE */
+@media print {
+
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11px;
+  }
+
+  header {
+    display: none !important;
+  }
+
+  .pdf-container,
+  .btn-add,
+  .btn-remove,
+  .btn-calc,
+  .link-ciqual,
+  .astuce {
+    display: none !important;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .titre-principal {
+    font-size: 20px;
+    margin: 10px 0 20px;
+  }
+
+  .table-responsive {
+    overflow: visible !important;
+  }
+
+  .table-repas {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 8px;
+    box-shadow: none;
+  }
+
+  .table-repas th,
+  .table-repas td {
+    padding: 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .table-repas input {
+    border: none;
+    padding: 0;
+    min-width: 0;
+    width: 100%;
+    font-size: 8px;
+    color: black;
+    appearance: none;
+  }
+
+  #bilan-micronutriments,
+  #guide-portions,
+  #graphique-apports {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card {
+    box-shadow: none;
+  }
+
+  .graphique-container {
+    height: 250px;
+  }
+}
 </style>
 </head>
 <body id="evaluation-page">
@@ -543,6 +643,11 @@ a:focus-visible {
 </button>
 <div id="total-journee" aria-live="polite">
   Total énergie de la journée : 0 kcal
+</div>
+<div class="pdf-container">
+  <button type="button" class="btn-pdf" onclick="imprimerBilan()">
+    📄 Télécharger mon bilan nutritionnel en PDF
+  </button>
 </div>
 <!-- BILAN MICRONUTRIMENTS -->
 <section id="bilan-micronutriments">
@@ -865,6 +970,89 @@ document.addEventListener("input", function(event) {
 document.addEventListener("DOMContentLoaded", function() {
   calculerApports();
 });
+/* VERSION IMPRIMABLE */
+@media print {
+
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11px;
+  }
+
+  header {
+    display: none !important;
+  }
+
+  .pdf-container,
+  .btn-add,
+  .btn-remove,
+  .btn-calc,
+  .link-ciqual,
+  .astuce {
+    display: none !important;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .titre-principal {
+    font-size: 20px;
+    margin: 10px 0 20px;
+  }
+
+  .table-responsive {
+    overflow: visible !important;
+  }
+
+  .table-repas {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 8px;
+    box-shadow: none;
+  }
+
+  .table-repas th,
+  .table-repas td {
+    padding: 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .table-repas input {
+    border: none;
+    padding: 0;
+    min-width: 0;
+    width: 100%;
+    font-size: 8px;
+    color: black;
+    appearance: none;
+  }
+
+  #bilan-micronutriments,
+  #guide-portions,
+  #graphique-apports {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .card {
+    box-shadow: none;
+  }
+
+  .graphique-container {
+    height: 250px;
+  }
+}
 </script>
 </body>
 </html>
