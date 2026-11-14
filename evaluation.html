@@ -970,89 +970,10 @@ document.addEventListener("input", function(event) {
 document.addEventListener("DOMContentLoaded", function() {
   calculerApports();
 });
-/* VERSION IMPRIMABLE */
-@media print {
-
-  @page {
-    size: A4;
-    margin: 12mm;
-  }
-
-  body {
-    background: white !important;
-    color: black !important;
-    font-size: 11px;
-  }
-
-  header {
-    display: none !important;
-  }
-
-  .pdf-container,
-  .btn-add,
-  .btn-remove,
-  .btn-calc,
-  .link-ciqual,
-  .astuce {
-    display: none !important;
-  }
-
-  main {
-    max-width: 100%;
-    padding: 0;
-  }
-
-  .titre-principal {
-    font-size: 20px;
-    margin: 10px 0 20px;
-  }
-
-  .table-responsive {
-    overflow: visible !important;
-  }
-
-  .table-repas {
-    width: 100% !important;
-    min-width: 0 !important;
-    font-size: 8px;
-    box-shadow: none;
-  }
-
-  .table-repas th,
-  .table-repas td {
-    padding: 4px;
-    overflow-wrap: anywhere;
-  }
-
-  .table-repas input {
-    border: none;
-    padding: 0;
-    min-width: 0;
-    width: 100%;
-    font-size: 8px;
-    color: black;
-    appearance: none;
-  }
-
-  #bilan-micronutriments,
-  #guide-portions,
-  #graphique-apports {
-    box-shadow: none;
-    break-inside: avoid;
-  }
-
-  .cards-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .card {
-    box-shadow: none;
-  }
-
-  .graphique-container {
-    height: 250px;
-  }
+/* IMPRESSION DU BILAN PDF */
+function imprimerBilan() {
+  calculerApports();
+  window.print();
 }
 </script>
 </body>
-</html>
