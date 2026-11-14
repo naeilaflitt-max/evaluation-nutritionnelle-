@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Évaluation Nutritionnelle</title>
+  <meta name="description" content="Outil de calcul et d'évaluation de l'état nutritionnel.">
 
   <!-- Logo dans l'onglet -->
   <link rel="icon" type="image/png" href="./logo.png">
@@ -18,91 +19,159 @@
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Feuille de style -->
+  <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 
-  <!-- Logo + Menu -->
+  <!-- EN-TÊTE : LOGO ET MENU -->
   <header>
     <div class="logo">
-      <img src="./logo.png" alt="Logo du site">
+      <img src="./logo.png" alt="Logo Évaluation Nutritionnelle">
     </div>
 
-    <!-- Menu de navigation -->
-    <nav>
+    <nav aria-label="Navigation principale">
       <ul>
-        <li><a href="index.html">Accueil</a></li>
+        <li><a href="index.html" aria-current="page">Accueil</a></li>
         <li><a href="confidentialite.html">Politique de confidentialité</a></li>
         <li><a href="evaluation.html">Évaluation alimentaire</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Titre principal -->
-  <h1 class="titre-principal">Évaluation de l'état nutritionnel</h1>
+  <!-- CONTENU PRINCIPAL -->
+  <main>
 
-  <!-- Formulaire principal -->
-  <div class="container">
-    <!-- Taille corporelle -->
-    <label for="tailleCorps">Taille (cm)</label>
-    <input type="number" id="tailleCorps" placeholder="Ex: 165">
+    <h1 class="titre-principal">
+      Évaluation de l'état nutritionnel
+    </h1>
 
-    <!-- Poids actuel -->
-    <label for="poids">Poids actuel (kg)</label>
-    <input type="number" id="poids" placeholder="Ex: 60">
+    <!-- FORMULAIRE DE CALCUL -->
+    <section class="container" aria-label="Calcul de l'état nutritionnel">
 
-    <!-- Poids habituel -->
-    <label for="poidsHabituel">Poids habituel (kg)</label>
-    <input type="number" id="poidsHabituel" placeholder="Ex: 62">
+      <!-- Taille corporelle -->
+      <label for="tailleCorps">Taille (cm)</label>
+      <input
+        type="number"
+        id="tailleCorps"
+        placeholder="Ex : 165"
+        min="1"
+        step="any"
+      >
 
-    <!-- Tour de poitrine -->
-    <label for="tourPoitrine">Tour de poitrine (cm) (Bornhardt)</label>
-    <input type="number" id="tourPoitrine" placeholder="Ex: 90">
+      <!-- Poids actuel -->
+      <label for="poids">Poids actuel (kg)</label>
+      <input
+        type="number"
+        id="poids"
+        placeholder="Ex : 60"
+        min="0"
+        step="any"
+      >
 
-    <!-- Tour de taille -->
-    <label for="tourTaille">Tour de taille (cm)</label>
-    <input type="number" id="tourTaille" placeholder="Ex: 78">
+      <!-- Poids habituel -->
+      <label for="poidsHabituel">Poids habituel (kg)</label>
+      <input
+        type="number"
+        id="poidsHabituel"
+        placeholder="Ex : 62"
+        min="0"
+        step="any"
+      >
 
-    <!-- Tour de hanche -->
-    <label for="hanche">Tour de hanche (cm)</label>
-    <input type="number" id="hanche" placeholder="Ex: 107">
+      <!-- Tour de poitrine -->
+      <label for="tourPoitrine">
+        Tour de poitrine (cm) – Formule de Bornhardt
+      </label>
+      <input
+        type="number"
+        id="tourPoitrine"
+        placeholder="Ex : 90"
+        min="0"
+        step="any"
+      >
 
-    <!-- Sexe -->
-    <label for="sexe">Sexe</label>
-    <select id="sexe">
-      <option value="Femme">Femme</option>
-      <option value="Homme">Homme</option>
-    </select>
+      <!-- Tour de taille -->
+      <label for="tourTaille">Tour de taille (cm)</label>
+      <input
+        type="number"
+        id="tourTaille"
+        placeholder="Ex : 78"
+        min="0"
+        step="any"
+      >
 
-    <!-- Âge -->
-    <label for="age">Âge</label>
-    <input type="number" id="age" placeholder="Ex: 22">
+      <!-- Tour de hanche -->
+      <label for="hanche">Tour de hanche (cm)</label>
+      <input
+        type="number"
+        id="hanche"
+        placeholder="Ex : 107"
+        min="0"
+        step="any"
+      >
 
-    <!-- Activité -->
-    <label for="activite">Niveau d'activité</label>
-    <select id="activite">
-      <option value="1.2">Sédentaire</option>
-      <option value="1.375">Légère</option>
-      <option value="1.55">Modérée</option>
-      <option value="1.725">Intense</option>
-      <option value="1.9">Très intense</option>
-    </select>
+      <!-- Sexe -->
+      <label for="sexe">Sexe</label>
+      <select id="sexe">
+        <option value="Femme">Femme</option>
+        <option value="Homme">Homme</option>
+      </select>
 
-    <!-- Bouton -->
-    <button onclick="calculs()">Calculer</button>
+      <!-- Âge -->
+      <label for="age">Âge (années)</label>
+      <input
+        type="number"
+        id="age"
+        placeholder="Ex : 22"
+        min="1"
+        step="1"
+      >
 
-    <!-- Résultats -->
-    <div id="resultats"></div>
-  </div>
+      <!-- Niveau d'activité -->
+      <label for="activite">Niveau d'activité physique</label>
+      <select id="activite">
+        <option value="1.2">Sédentaire</option>
+        <option value="1.375">Légère</option>
+        <option value="1.55" selected>Modérée</option>
+        <option value="1.725">Intense</option>
+        <option value="1.9">Très intense</option>
+      </select>
 
-  <!-- Section contact -->
-  <section id="contact">
+      <!-- Bouton de calcul -->
+      <button type="button" onclick="calculs()">
+        Calculer
+      </button>
+
+      <!-- Affichage des résultats -->
+      <div
+        id="resultats"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+
+    </section>
+
+  </main>
+
+  <!-- PIED DE PAGE : CONTACT -->
+  <footer id="contact">
     <h2>Contact</h2>
-    <p>Nom : Flitti Naila </p>
-    <p>Téléphone :</p>
-    <p>Email : <a href="mailto:naeilaflitt@gmail.com">naeilaflitt@gmail.com</a></p>
-  </section>
 
-  <script src="script.js"></script>
+    <p>Nom : Flitti Naila</p>
+
+    <p>
+      Email :
+      <a href="mailto:naeilaflitt@gmail.com">
+        naeilaflitt@gmail.com
+      </a>
+    </p>
+  </footer>
+
+  <!-- Fichier JavaScript -->
+  <script src="./script.js" defer></script>
+
 </body>
 </html>
+```
